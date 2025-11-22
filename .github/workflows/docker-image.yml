@@ -13,7 +13,7 @@ jobs:
       matrix:
         include:
           - dockerfile: ./Dockerfile
-            image: struppinet/aska-dedicated-server:latest
+            image: ${{ secrets.DOCKERHUB_REPOSITORY }}
             target: base         
           
     permissions:

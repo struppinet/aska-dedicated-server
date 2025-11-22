@@ -2,7 +2,8 @@
 
 APP_FILE="$server_files/server properties.txt"
 
-variables=(    
+variables=(
+    "SESSION_NAME" "session name"
     "SERVER_NAME" "server name"
     "PASSWORD" "password"
     "SERVER_PORT" "steam game port"
