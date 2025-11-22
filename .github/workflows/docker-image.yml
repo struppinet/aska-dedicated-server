@@ -7,13 +7,13 @@ on:
 jobs:
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: debian-latest
     strategy:
       fail-fast: false
       matrix:
         include:
           - dockerfile: ./Dockerfile
-            image: luxusburg/aska-server:latest
+            image: struppinet/aska-dedicated-server:latest
             target: base         
           
     permissions:

@@ -1,9 +1,7 @@
 # Docker for a Aska dedicated server
-[![Docker Pulls](https://img.shields.io/docker/pulls/luxusburg/aska-server)](https://hub.docker.com/r/luxusburg/aska-server)
+(Forked from [luxusburg/aska-server](https://github.com/luxusburg/aska-server), thanks for your work!)
 
-[![Image Size](https://img.shields.io/docker/image-size/luxusburg/aska-server/latest)](https://hub.docker.com/r/luxusburg/aska-server/tags)
-
-[![Docker Hub](https://img.shields.io/badge/Docker_Hub-aska-blue?logo=docker)](https://hub.docker.com/r/luxusburg/aska-server)
+[![Docker Hub](https://img.shields.io/badge/Docker_Hub-aska_dedicated_server-blue?logo=docker)](https://hub.docker.com/r/struppinet/aska-dedicated-server) [![Docker Pulls](https://img.shields.io/docker/pulls/struppinet/aska-dedicated-server)](https://hub.docker.com/r/struppinet/aska-dedicated-server) [![Image Size](https://img.shields.io/docker/image-size/struppinet/aska-dedicated-server/latest)](https://hub.docker.com/r/struppinet/aska-dedicated-server/tags)
 
 ## Table of contents
 - [Docker Run command](#docker-run)
@@ -60,14 +58,14 @@ docker run -d \
     -v ./server:/home/aska/server_files \
     -e TZ=Europe/Paris \
     -e PASSWORD=change_me
-    -e SERVER_NAME='Aska docker by Luxusburg'
+    -e SERVER_NAME='Aska docker server'
     -e KEEP_WORLD_ALIVE=false
-    luxusburg/aska-server:latest
+    struppinet/aska-dedicated-server:latest
 ```
 
 ## Docker compose Deployment
 
-**This will create the folders './server' and './data' in your current folder where you execute combose file**
+**This will create the folders './server' and './data' in your current folder where you execute compose file**
 
 **Recommendation:**
 Create a folder before executing the docker compose file
@@ -81,12 +79,12 @@ Create a folder before executing the docker compose file
 services:
   aska:
     container_name: aska
-    image: luxusburg/aska-server:latest
+    image: struppinet/aska-dedicated-server:latest
     network_mode: bridge
     environment:
       - TZ=Europe/Paris
       - PASSWORD=change_me
-      - SERVER_NAME='Aska docker by Luxusburg'
+      - SERVER_NAME='Aska docker'
       - KEEP_WORLD_ALIVE=false
     volumes:
       - './server:/home/aska/server_files:rw'

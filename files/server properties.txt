@@ -15,7 +15,7 @@ display name = Default Session
 
 //override for the host name that is displayed in the session list
 //if left blank it will use what would normally be used when hosting from this machine
-server name = My Aska Server
+server name = Aska Server Docker
 
 //the seed of the new save
 seed =
@@ -106,4 +106,4 @@ herbivore population = medium
 //possible options: low, medium, high
 //only works in custom mode
 bear population = medium
-
+
