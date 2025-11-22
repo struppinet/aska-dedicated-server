@@ -1,19 +1,30 @@
 #!/bin/bash
 # Location of server data and save data for docker
-server_files=/home/aska/server_files
+server_files=/srv/aska_server_files
 
 echo " "
 echo "Server files location is set to : $server_files"
 echo " "
 
-mkdir -p /home/aska/steamcmd
+## install steam
+mkdir -p /srv/steamcmd
 curl -sSL -o steamcmd.tar.gz https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz
-tar -xzvf steamcmd.tar.gz -C /home/aska/steamcmd
-mkdir -p /home/aska/steamcmd/steamapps # Fix steamcmd disk write error when this folder is missing
-steamcmd=/home/aska/steamcmd/steamcmd.sh
+tar -xzvf steamcmd.tar.gz -C /srv/steamcmd
+mkdir -p /srv/steamcmd/steamapps # Fix steamcmd disk write error when this folder is missing
+steamcmd=/srv/steamcmd/steamcmd.sh
+mkdir -p /srv/.steam 2>/dev/null
+chmod -R 777 /srv/.steam 2>/dev/null
+cd /srv/steamcmd
+## set up 32 bit libraries
+mkdir -p $server_files/.steam/sdk32
+cp -v linux32/steamclient.so ../.steam/sdk32/steamclient.so
 
-mkdir -p /home/aska/.steam 2>/dev/null
-chmod -R 777 /home/aska/.steam 2>/dev/null
+## set up 64 bit libraries
+mkdir -p $server_files/.steam/sdk64
+cp -v linux64/steamclient.so ../.steam/sdk64/steamclient.so
+
+cd $server_files
+
 echo " "
 echo "Updating Aska Dedicated Server files..."
 echo " "
@@ -34,7 +45,7 @@ fi
 echo "Checking if server properties.txt files exists and no env virables were set"
 if [ ! -f "$server_files/server properties.txt" ]; then
     echo "$server_files/server properties.txt not found. Copying default file."
-    cp "/home/aska/scripts/server properties.txt" "$server_files/" 2>&1
+    cp "/srv/scripts/server properties.txt" "$server_files/" 2>&1
 fi
 echo " "
 

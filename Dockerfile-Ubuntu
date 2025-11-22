@@ -1,0 +1,45 @@
+FROM ubuntu:latest as base
+
+LABEL author="struppi" maintainer="https://github.com/struppinet"
+
+# basics
+ARG DEBIAN_FRONTEND="noninteractive"
+RUN dpkg --add-architecture i386
+RUN apt-get update
+
+# basic packages
+RUN apt-get install -y --no-install-recommends ca-certificates curl git unzip zip tar jq gnupg2 wget vim
+
+# wine
+RUN mkdir -pm755 /etc/apt/keyrings && \
+    wget -O - https://dl.winehq.org/wine-builds/winehq.key | gpg --dearmor -o /etc/apt/keyrings/winehq-archive.key - && \
+    . /etc/os-release && \
+    wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/${UBUNTU_CODENAME}/winehq-${UBUNTU_CODENAME}.sources && \
+    apt-get update
+RUN apt-get install -y --install-recommends winehq-stable winbind
+
+ENV WINEDEBUG=fixme-all
+ENV WINEPREFIX=/root/.demo
+ENV WINEARCH=win64
+RUN winecfg
+
+# xvfb
+RUN apt-get install -y xvfb
+
+# winetricks
+RUN apt-get install -y cabextract
+RUN wget https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks
+RUN chmod +x winetricks
+RUN cp winetricks /usr/local/bin
+
+# Visual C++ Redistributable
+RUN wineboot -u && xvfb-run winetricks -q vcrun2008
+
+# customization
+VOLUME ["/srv/aska_server_files"]
+
+ADD ./files /srv/scripts
+RUN chmod +x /srv/scripts/*.sh
+
+ENTRYPOINT ["/bin/bash", "/srv/scripts/entrypoint.sh"]
+CMD ["/srv/scripts/start.sh"]

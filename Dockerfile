@@ -1,75 +1,12 @@
-FROM debian:stable as base
+FROM ghcr.io/ptero-eggs/yolks:wine_latest as base
 
 LABEL author="struppi" maintainer="https://github.com/struppinet"
 
-# basics
-ENV DEBIAN_FRONTEND=noninteractive
-RUN apt update && apt upgrade -y \
-    && apt install -y --no-install-recommends ca-certificates curl git unzip zip tar jq wget
+# customization
+VOLUME ["/srv/aska_server_files"]
 
-# Only install the needed steamcmd packages on the AMD64 build
-RUN if [ "$(uname -m)" = "x86_64" ]; then \
-      dpkg --add-architecture i386 && \
-      apt update && \
-      apt install -y lib32gcc-s1 libsdl2-2.0-0:i386; \
-    fi
+ADD ./files /srv/scripts
+RUN chmod +x /srv/scripts/*.sh
 
-RUN dpkg --add-architecture i386 \
-    && apt update -y \
-    && apt install -y --no-install-recommends gnupg2 numactl tzdata libntlm0 winbind xvfb xauth python3 libncurses6 libncurses6:i386 libsdl2-2.0-0 libsdl2-2.0-0:i386
-
-# Install wine and with recommends
-RUN mkdir -pm755 /etc/apt/keyrings
-RUN wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
-RUN wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/debian/dists/trixie/winehq-trixie.sources
-RUN apt update
-RUN apt install -y --install-recommends winehq-stable cabextract
-
-# Set up Winetricks
-RUN	wget -q -O /usr/sbin/winetricks https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks \
-    && chmod +x /usr/sbin/winetricks
-
-# user
-RUN groupadd aska
-RUN useradd -m -g aska -s /bin/bash aska
-
-# sudo?
-# RUN apt-get update && apt-get install -y sudo && rm -rf /var/lib/apt/lists/*
-# RUN usermod -aG sudo aska
-# RUN echo "aska ALL=(ALL) NOPASSWD:ALL" | tee /etc/sudoers.d/aska
-# RUN chmod 0440 /etc/sudoers.d/aska
-
-ENV USER=aska
-ENV HOME=/home/$USER
-
-# Set language environment
-ENV TZ='Europe/Berlin'
-#ENV LANG=en_US.UTF-8
-#ENV LC_ALL=en_US.UTF-8
-
-# RUN echo 'export LC_ALL=$LC_ALL' >> /etc/profile.d/locale.sh && \
-#     sed -i 's|LANG=C.UTF-8|LANG=$LANG|' /etc/profile.d/locale.sh
-
-# Set wine environment
-ENV WINEPREFIX=/home/$USER/.wine
-ENV WINEDLLOVERRIDES="mscoree,mshtml="
-ENV DISPLAY=:0
-ENV DISPLAY_WIDTH=1024
-ENV DISPLAY_HEIGHT=768
-ENV DISPLAY_DEPTH=16
-ENV AUTO_UPDATE=1
-ENV XVFB=1
-
-RUN apt clean autoclean autoremove
-
-USER $USER
-WORKDIR $HOME
-
-VOLUME ["/home/aska/server_files"]
-
-# Copy batch files and give execute rights
-ADD --chown=$USER:$USER ./files $HOME/scripts
-RUN chmod +x $HOME/scripts/*.sh
-
-ENTRYPOINT ["/bin/bash", "/home/aska/scripts/entrypoint.sh"]
-CMD ["/home/aska/scripts/start.sh"]
+ENTRYPOINT ["/bin/bash", "/srv/scripts/entrypoint.sh"]
+CMD ["/srv/scripts/start.sh"]
