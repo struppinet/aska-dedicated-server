@@ -6,6 +6,7 @@ LABEL author="struppi" maintainer="https://github.com/struppinet"
 VOLUME ["/srv/aska_server_files"]
 
 # well that fixed location sucks
+RUN mkdir -p "/home/container/.wine/drive_c/users/container/AppData/LocalLow/Sand Sailor Studio/Aska/data/server"
 VOLUME ["/home/container/.wine/drive_c/users/container/AppData/LocalLow/Sand Sailor Studio/Aska/data/server"]
 
 ADD ./files /srv/scripts
