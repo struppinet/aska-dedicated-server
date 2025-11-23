@@ -1,2 +1,6 @@
 /.git
 /.vs
+
+# ignore default volumes
+server
+savegame
