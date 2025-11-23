@@ -17,10 +17,10 @@ docker run -d \
     --name aska \
     -p 27016:27016/udp \    
     -p 27015:27015/udp \
-    -v ./server:/home/aska/server_files \
+    -v ./server:"/home/aska/server_files" \
     -v ./savegame:"/home/container/.wine/drive_c/users/container/AppData/LocalLow/Sand Sailor Studio/Aska/data/server" \
-    -e SERVER_NAME='Aska docker' \
-    -e SESSION_NAME='Aska docker' \
+    -e SERVER_NAME="Aska docker" \
+    -e SESSION_NAME="Aska docker" \
     -e REGION=Europe \
     -e PASSWORD=change_me \
     -e KEEP_WORLD_ALIVE=false \
@@ -36,14 +36,14 @@ services:
     image: struppinet/aska-dedicated-server:latest
     network_mode: bridge
     environment:
-      - SERVER_NAME='Aska docker'
-      - SESSION_NAME='Aska docker'
+      - SERVER_NAME=Aska docker
+      - SESSION_NAME=Aska docker
       - REGION=Europe
       - PASSWORD=change_me
       - KEEP_WORLD_ALIVE=false
     volumes:
       - './server:/home/aska/server_files:rw'
-      - './savegame:"/home/container/.wine/drive_c/users/container/AppData/LocalLow/Sand Sailor Studio/Aska/data/server":rw'
+      - './savegame:/home/container/.wine/drive_c/users/container/AppData/LocalLow/Sand Sailor Studio/Aska/data/server:rw'
     ports:
       - '27016:27016/udp'
       - '27015:27015/udp'
