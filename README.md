@@ -76,3 +76,7 @@ You can use these environment variables for your server settings:
 | AUTOSAVE_STYLE       | every morning   | The style in which the server should save, possible options: every morning, disabled, every 5 minutes, every 10 minutes, every 15 minutes, every 20 minutes                                               |
 
 **More options exists in the my_server_properties.txt file please modify it in there!**
+
+## Links
+Github [https://github.com/struppinet/aska-dedicated-server](https://github.com/struppinet/aska-dedicated-server)  
+Docker [https://hub.docker.com/r/struppinet/aska-dedicated-server](https://hub.docker.com/r/struppinet/aska-dedicated-server)
