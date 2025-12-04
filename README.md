@@ -13,7 +13,7 @@ This is a Docker container to help you get started with hosting your own [Aska](
 
 - Forked from [luxusburg/aska-server](https://github.com/luxusburg/aska-server), thanks for your work!
 - This image uses the pterodactyl/wine yolk [Ptero-Eggs](https://github.com/ptero-eggs/) as it was the only thing working. Thank you guys for your work!
-- You need to create the authentication token from the [Steam Manage-Game-Servers](https://steamcommunity.com/dev/managegameservers) site.
+- You need to create the authentication token for AppId 1898300 from the [Steam Manage-Game-Servers](https://steamcommunity.com/dev/managegameservers) site.
 - The volume paths are not that great since it uses the windows emulation. Also if anything is wrong with the config the aska server will just crash.
 
 | Volume   | Path                                                                                               | Description                                                                                             |
@@ -65,7 +65,7 @@ You can use these environment variables for your server settings:
 
 | Variable             | Default         | Description                                                                                                                                                                                               |
 |----------------------|-----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| AUTHENTICATION_TOKEN |                 | The token needed for an authentication. Get it here: https://steamcommunity.com/dev/managegameservers                                                                                                     |
+| AUTHENTICATION_TOKEN |                 | The token needed for an authentication for AppId 1898300. Get it here: https://steamcommunity.com/dev/managegameservers                                                                                   |
 | SESSION_NAME         | Default Session | Session name that is displayed in the server list (left column)                                                                                                                                           |
 | SERVER_NAME          | My Aska Server  | Host name that is displayed in the server list (right column)                                                                                                                                             |
 | REGION               | default         | Leave default to ping the best region                                                                                                                                                                     |
