@@ -3,9 +3,10 @@
 ![Static Badge](https://img.shields.io/badge/GitHub-aska--dedicated--server-blue?logo=github) [![Docker Hub](https://img.shields.io/badge/Docker_Hub-aska--dedicated--server-blue?logo=docker)](https://hub.docker.com/r/struppinet/aska-dedicated-server)
 
 ## Table of contents
+- [Known issues](#known-issues)
 - [Docker Run command](#docker-run)
-- [Docker Compose command](#docker-compose-deployment)
-- [Environment variables server settings](#environment-variables-game-settings)
+- [Docker Compose command](#docker-compose)
+- [Environment variables server settings](#environment-variables-server-settings)
   
 This is a Docker container to help you get started with hosting your own [Aska](https://playaska.com/) dedicated server.
 
@@ -14,12 +15,19 @@ This is a Docker container to help you get started with hosting your own [Aska](
 - Forked from [luxusburg/aska-server](https://github.com/luxusburg/aska-server), thanks for your work!
 - This image uses the pterodactyl/wine yolk [Ptero-Eggs](https://github.com/ptero-eggs/) as it was the only thing working. Thank you guys for your work!
 - You need to create the authentication token for AppId 1898300 from the [Steam Manage-Game-Servers](https://steamcommunity.com/dev/managegameservers) site.
-- The volume paths are not that great since it uses the windows emulation. Also if anything is wrong with the config the aska server will just crash.
+- The volume paths are not that great since it uses the windows emulation. 
+- If anything is wrong with the config the aska server will just crash.
 
 | Volume   | Path                                                                                               | Description                                                                                             |
 |----------|----------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|
 | savegame | /home/container/.wine/drive_c/users/container/AppData/LocalLow/Sand Sailor Studio/Aska/data/server | The path where the start-script will store the config and aska will store the savegame                  |
 | server   | /home/container/server_files                                                                       | The path where steam will install the aska dedicated server (optional to store to avoid re-downloading) |
+
+## Known issues
+As often discussed in the official discord server: [#dedicated-server-megathread](https://discord.com/channels/1037653986368569344/1310695831854125066)
+
+- Sever quits/disconnects after a few minutes without any players.
+- Savegame id will reset and a new save will be created. (even though the old save is still there)
 
 ## Docker Run
 
