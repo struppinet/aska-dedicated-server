@@ -11,7 +11,8 @@ variables=(
     "AUTHENTICATION_TOKEN" "authentication token"
     "REGION" "region"
     "KEEP_WORLD_ALIVE" "keep server world alive"
-    "AUTOSAVE_STYLE" "autosave style"    
+    "AUTOSAVE_STYLE" "autosave style"
+    "SAVE_ID" "save id"
 )
 
 for ((i=0; i<${#variables[@]}; i+=2)); do

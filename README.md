@@ -83,6 +83,7 @@ You can use these environment variables for your server settings:
 | SERVER_QUERY_PORT    | 27016           | The port that will manage server browser related duties and info                                                                                                                                          |
 | KEEP_WORLD_ALIVE     | false           | If set to true when the session is open, the world is also updating, even without players, if set to false, the world loads when the first player joins and the world unloads when the last player leaves |
 | AUTOSAVE_STYLE       | every morning   | The style in which the server should save, possible options: every morning, disabled, every 5 minutes, every 10 minutes, every 15 minutes, every 20 minutes                                               |
+| SAVE_ID              |                 | If not empty this savegame id will be set. Use this to ensure the same savegame id after restarts to combat the known issue with savegame recreation                                                      |
 
 **More options exists in the my_server_properties.txt file please modify it in there!**
 
