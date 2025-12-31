@@ -12,5 +12,7 @@ VOLUME ["/home/container/.wine/drive_c/users/container/AppData/LocalLow/Sand Sai
 ADD ./files /home/container//scripts
 RUN chmod +x /home/container//scripts/*.sh
 
+HEALTHCHECK CMD ! grep -q "Uploading Crash Report" /tmp/app.stdout || exit 1
+
 ENTRYPOINT ["/bin/bash", "/home/container/scripts/entrypoint.sh"]
 CMD ["/home/container/scripts/start.sh"]
