@@ -8,11 +8,12 @@ WORKDIR		/home/container
 
 STOPSIGNAL	SIGINT
 
-## Update base packages
-RUN         apt-get update \
+RUN         dpkg --add-architecture i386 \
+            # Update base packages
+            && apt-get update \
 	        && apt-get upgrade -y \
-	        && rm -rf /var/lib/apt/lists/* \
-            && apt-get update && apt-get install -y --no-install-recommends \
+            # Install additional packages
+	        && apt-get install -y --no-install-recommends \
             binutils \
             ca-certificates \
             cabextract \
@@ -60,28 +61,32 @@ RUN         apt-get update \
             wget \
             xz-utils \
             zip \
-            && rm -rf /var/lib/apt/lists/* \
+            # Install required packages for wine
+            gnupg2 numactl tzdata libntlm0 winbind xvfb xauth python3 libncurses6 libncurses6:i386 libsdl2-2.0-0 libsdl2-2.0-0:i386 \
             # Generate locale
             && sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
             && locale-gen \
             && update-locale LANG=en_US.UTF-8 \
-            # install required packages
-            && dpkg --add-architecture i386 \
-            && apt update -y \
-            && apt install -y --no-install-recommends gnupg2 numactl tzdata libntlm0 winbind xvfb xauth python3 libncurses6 libncurses6:i386 libsdl2-2.0-0 libsdl2-2.0-0:i386 \
+            # Add sources for wine
+            && mkdir -pm755 /etc/apt/keyrings \
+            && wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key \
+            && wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/debian/dists/trixie/winehq-trixie.sources \
+            && apt-get update \
+            # Install rcon
             && cd /tmp/ \
             && curl -sSL https://github.com/gorcon/rcon-cli/releases/download/v0.10.3/rcon-0.10.3-amd64_linux.tar.gz > rcon.tar.gz \
             && tar xvf rcon.tar.gz \
             && mv rcon-0.10.3-amd64_linux/rcon /usr/local/bin/ \
             # Install wine and with recommends
-            && mkdir -pm755 /etc/apt/keyrings \
-            && wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key \
-            && wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/debian/dists/trixie/winehq-trixie.sources \
-            && apt update \
             && apt install --install-recommends winehq-stable cabextract -y \
             # Set up Winetricks
             && wget -q -O /usr/sbin/winetricks https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks \
-            && chmod +x /usr/sbin/winetricks
+            && chmod +x /usr/sbin/winetricks \
+            # Deep Clean: Remove man pages, docs, and apt cache
+            && rm -rf /usr/share/doc/* /usr/share/man/* /usr/share/info/* \
+            && apt clean \
+            && apt autoremove -y \
+            && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ENV         HOME=/home/container
 ENV         WINEPREFIX=/home/container/.wine
