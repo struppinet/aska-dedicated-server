@@ -34,9 +34,6 @@ RUN         dpkg --add-architecture i386 \
             && apt-get update \
             # Install wine and with recommends
             && apt install --install-recommends winehq-stable -y \
-            # Set up Winetricks
-            && wget -q -O /usr/sbin/winetricks https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks \
-            && chmod +x /usr/sbin/winetricks \
             # Deep Clean: Remove man pages, docs, and apt cache
             && rm -rf /usr/share/doc/* /usr/share/man/* /usr/share/info/* \
             && apt clean \
