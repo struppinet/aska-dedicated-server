@@ -32,11 +32,6 @@ RUN         dpkg --add-architecture i386 \
             && wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key \
             && wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/debian/dists/trixie/winehq-trixie.sources \
             && apt-get update \
-            # Install rcon
-            && cd /tmp/ \
-            && curl -sSL https://github.com/gorcon/rcon-cli/releases/download/v0.10.3/rcon-0.10.3-amd64_linux.tar.gz > rcon.tar.gz \
-            && tar xvf rcon.tar.gz \
-            && mv rcon-0.10.3-amd64_linux/rcon /usr/local/bin/ \
             # Install wine and with recommends
             && apt install --install-recommends winehq-stable -y \
             # Set up Winetricks
