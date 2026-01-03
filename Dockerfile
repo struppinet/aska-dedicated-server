@@ -19,6 +19,7 @@ RUN         dpkg --add-architecture i386 \
                locales \
                tar \
                wget \
+               nano \
                # Install required packages for wine
                winbind \
                xvfb \
