@@ -4,6 +4,10 @@ echo " "
 echo "Startup"
 echo " "
 
+# reset log file
+touch /tmp/app.stdout
+cat /dev/null > /tmp/app.stdout
+
 server_files="/home/container/server_files"
 echo "server path: $server_files"
 savegame_files="/home/container/.wine/drive_c/users/container/AppData/LocalLow/Sand Sailor Studio/Aska/data/server"
@@ -65,4 +69,4 @@ export SteamAppId=1898300
 
 # RUN
 cd "$server_files"
-xvfb-run --auto-servernum wine $server_files/AskaServer.exe -nographics -batchmode -propertiesPath 'C:/users/container/AppData/LocalLow/Sand Sailor Studio/Aska/data/server/my_server_properties.txt' 2>&1
+xvfb-run --auto-servernum wine $server_files/AskaServer.exe -nographics -batchmode -propertiesPath 'C:/users/container/AppData/LocalLow/Sand Sailor Studio/Aska/data/server/my_server_properties.txt' 2>&1 | tee /tmp/app.stdout

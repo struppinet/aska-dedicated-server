@@ -2,6 +2,9 @@ FROM ghcr.io/ptero-eggs/yolks:wine_latest
 
 LABEL author="struppi" maintainer="https://github.com/struppinet"
 
+# healthcheck
+HEALTHCHECK --interval=5s --start-period=60s --start-interval=15s CMD ! grep -Eq "Uploading Crash Report|A crash has been intercepted by the crash handler" /tmp/app.stdout || exit 1
+
 # customization
 VOLUME ["/home/container/server_files"]
 
