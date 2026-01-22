@@ -5,3 +5,6 @@
 # ignore default volumes
 server
 savegame
+
+# ignore test docker-compose file
+docker-compose.yaml

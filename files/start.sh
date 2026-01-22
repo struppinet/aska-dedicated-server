@@ -57,7 +57,8 @@ if [ ! -f "$savegame_files/my_server_properties.txt" ]; then
   cp "$server_files/server properties.txt" "$savegame_files/my_server_properties.txt" 2>&1
 fi
 
-# update env cfg data
+# update env cfg data (auto first, then explicit mappings take priority)
+source /home/container/scripts/autoenv2cfg.sh
 source /home/container/scripts/env2cfg.sh
 
 echo " "
