@@ -10,11 +10,14 @@
   
 This is a Docker container to help you get started with hosting your own [Aska](https://playaska.com/) dedicated server.
 
+## Requirements
+
+- You need to create the authentication token for AppId `1898300` from the [Steam Manage-Game-Servers](https://steamcommunity.com/dev/managegameservers) site.
+
 ## Info
 
 - Forked from [luxusburg/aska-server](https://github.com/luxusburg/aska-server), thanks for your work!
 - This image uses the pterodactyl/wine yolk [Ptero-Eggs](https://github.com/ptero-eggs/) as it was the only thing working. Thank you guys for your work!
-- You need to create the authentication token for AppId 1898300 from the [Steam Manage-Game-Servers](https://steamcommunity.com/dev/managegameservers) site.
 - The volume paths are not that great since it uses the windows emulation. 
 - If anything is wrong with the config the aska server will just crash.
 
@@ -26,8 +29,8 @@ This is a Docker container to help you get started with hosting your own [Aska](
 ## Known issues
 As often discussed in the official discord server: [#dedicated-server-megathread](https://discord.com/channels/1037653986368569344/1310695831854125066)
 
-- Sever quits/disconnects after a few minutes without any players.
-- Savegame id will reset and a new save will be created. (even though the old save is still there)
+- Sever quits/disconnects after a few minutes without any players. -> added a keep-alive detection
+- Savegame id will reset and a new save will be created. (even though the old save is still there) -> use the SAVE_ID env
 - Still some xvfb/wine issues. If you encounter any please report them in the issues section with logs and specs so we can have a look.
 
 ## Docker Run
@@ -86,6 +89,14 @@ You can use these environment variables for your server settings:
 | SAVE_ID              |                 | If not empty this savegame id will be set. Use this to ensure the same savegame id after restarts to combat the known issue with savegame recreation                                                      |
 
 **More options exists in the my_server_properties.txt file please modify it in there!**
+
+### Game Options via Environment variables (ASKA_*)
+You can use `ASKA_` prefixed environment variables to set any config option. The variable name is converted automatically:
+- Drop the `ASKA_` prefix
+- Convert to lowercase
+- Replace `_` with spaces
+
+For example: `ASKA_MONSTER_DENSITY=high` becomes `monster density = high`
 
 ## Links
 Github [https://github.com/struppinet/aska-dedicated-server](https://github.com/struppinet/aska-dedicated-server)  
