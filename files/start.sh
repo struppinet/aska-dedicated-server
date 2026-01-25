@@ -4,6 +4,10 @@ echo " "
 echo "Startup"
 echo " "
 
+# reset log file
+touch /tmp/app.stdout
+cat /dev/null > /tmp/app.stdout
+
 server_files="/home/container/server_files"
 echo "server path: $server_files"
 savegame_files="/home/container/.wine/drive_c/users/container/AppData/LocalLow/Sand Sailor Studio/Aska/data/server"
@@ -21,10 +25,15 @@ steamcmd=$steam_path/steamcmd.sh
 echo "Steam ... OK"
 
 echo " "
-echo "Installing/Updating Aska Dedicated Server files..."
+echo "Installing/Updating Aska Dedicated Server files ..."
+validate_flag="validate"
+if [ "$NO_VALIDATE" = "true" ]; then
+  echo " ... skipping file integrity check (NO_VALIDATE=true) ..."
+  validate_flag=""
+fi
 echo " "
 
-$steamcmd +@sSteamCmdForcePlatformType windows +force_install_dir "$server_files" +login anonymous +app_update 3246670 validate +quit
+$steamcmd +@sSteamCmdForcePlatformType windows +force_install_dir "$server_files" +login anonymous +app_update 3246670 $validate_flag +quit
 exit_code=$?
 
 if [ $exit_code -ne 0 ]; then
@@ -61,4 +70,4 @@ export SteamAppId=1898300
 
 # RUN
 cd "$server_files"
-xvfb-run --auto-servernum wine $server_files/AskaServer.exe -nographics -batchmode -propertiesPath 'C:/users/container/AppData/LocalLow/Sand Sailor Studio/Aska/data/server/my_server_properties.txt' 2>&1
+xvfb-run --auto-servernum wine $server_files/AskaServer.exe -nographics -batchmode -propertiesPath 'C:/users/container/AppData/LocalLow/Sand Sailor Studio/Aska/data/server/my_server_properties.txt' 2>&1 | tee /tmp/app.stdout

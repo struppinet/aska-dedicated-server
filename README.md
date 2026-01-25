@@ -19,17 +19,17 @@ This is a Docker container to help you get started with hosting your own [Aska](
 - Forked from [luxusburg/aska-server](https://github.com/luxusburg/aska-server), thanks for your work!
 - This image uses the pterodactyl/wine yolk [Ptero-Eggs](https://github.com/ptero-eggs/) as it was the only thing working. Thank you guys for your work!
 - The volume paths are not that great since it uses the windows emulation. 
-- If anything is wrong with the config the aska server will just crash.
+- If anything is wrong with the config the Aska server will just crash.
 
 | Volume   | Path                                                                                               | Description                                                                                             |
 |----------|----------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|
-| savegame | /home/container/.wine/drive_c/users/container/AppData/LocalLow/Sand Sailor Studio/Aska/data/server | The path where the start-script will store the config and aska will store the savegame                  |
-| server   | /home/container/server_files                                                                       | The path where steam will install the aska dedicated server (optional to store to avoid re-downloading) |
+| savegame | /home/container/.wine/drive_c/users/container/AppData/LocalLow/Sand Sailor Studio/Aska/data/server | The path where the start-script will store the config and Aska will store the savegame                  |
+| server   | /home/container/server_files                                                                       | The path where steam will install the Aska dedicated server (optional to store to avoid re-downloading) |
 
 ## Known issues
 As often discussed in the official discord server: [#dedicated-server-megathread](https://discord.com/channels/1037653986368569344/1310695831854125066)
 
-- Sever quits/disconnects after a few minutes without any players. -> added a keep-alive detection
+- Server quits/disconnects after a few minutes without any players. -> added a keep-alive detection
 - Savegame id will reset and a new save will be created. (even though the old save is still there) -> use the SAVE_ID env
 - Still some xvfb/wine issues. If you encounter any please report them in the issues section with logs and specs so we can have a look.
 
@@ -87,6 +87,7 @@ You can use these environment variables for your server settings:
 | KEEP_WORLD_ALIVE     | false           | If set to true when the session is open, the world is also updating, even without players, if set to false, the world loads when the first player joins and the world unloads when the last player leaves |
 | AUTOSAVE_STYLE       | every morning   | The style in which the server should save, possible options: every morning, disabled, every 5 minutes, every 10 minutes, every 15 minutes, every 20 minutes                                               |
 | SAVE_ID              |                 | If not empty this savegame id will be set. Use this to ensure the same savegame id after restarts to combat the known issue with savegame recreation                                                      |
+| NO_VALIDATE          | false           | Set to true to skip validation of the game files on each startup                                                                                                                                          |
 
 **More options exists in the my_server_properties.txt file please modify it in there!**
 
